@@ -35,25 +35,15 @@ class BertDataloader(AbstractDataloader):
 
     def get_pytorch_dataloaders(self):
         train_loader = self._get_train_loader()
-        val_loader = self._get_val_loader()
-        test_loader = self._get_test_loader()
+        val_loader = self._get_eval_loader(mode='val')
+        test_loader = self._get_eval_loader(mode='test')
         return train_loader, val_loader, test_loader
 
     def _get_train_loader(self):
-        dataset = self._get_train_dataset()
+        dataset = self.BertTrainDataset(self.train, self.max_len, self.mask_prob, self.CLOZE_MASK_TOKEN, self.item_count, self.rng)
         dataloader = data_utils.DataLoader(dataset, batch_size=self.args.train_batch_size,
                                            shuffle=True, pin_memory=True)
-        return dataloader
-
-    def _get_train_dataset(self):
-        dataset = BertTrainDataset(self.train, self.max_len, self.mask_prob, self.CLOZE_MASK_TOKEN, self.item_count, self.rng)
-        return dataset
-
-    def _get_val_loader(self):
-        return self._get_eval_loader(mode='val')
-
-    def _get_test_loader(self):
-        return self._get_eval_loader(mode='test')
+        return dataloader            
 
     def _get_eval_loader(self, mode):
         batch_size = self.args.val_batch_size if mode == 'val' else self.args.test_batch_size

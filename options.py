@@ -116,5 +116,6 @@ parser.add_argument('--experiment_description', type=str, default='test')
 
 
 ################
-args = parser.parse_args()
+# args = parser.parse_args()
+args = parser.parse_args(args=["--template", "train_bert"])
 set_template(args)

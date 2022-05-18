@@ -11,10 +11,12 @@ from tqdm import tqdm
 import json
 from abc import *
 from pathlib import Path
-
+import numpy as np
 
 class AbstractTrainer(metaclass=ABCMeta):
     def __init__(self, args, model, train_loader, val_loader, test_loader, export_root):
+        print(len(iter(val_loader)))
+        exit()
         self.args = args
         self.device = args.device
         self.model = model.to(self.device)

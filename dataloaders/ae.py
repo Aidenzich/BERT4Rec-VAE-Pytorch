@@ -42,25 +42,16 @@ class AEDataloader(AbstractDataloader):
 
     def get_pytorch_dataloaders(self):
         train_loader = self._get_train_loader()
-        val_loader = self._get_val_loader()
-        test_loader = self._get_test_loader()
+        val_loader = self._get_eval_loader(mode='val')
+        test_loader = self._get_eval_loader(mode='test')
         return train_loader, val_loader, test_loader
 
     def _get_train_loader(self):
-        dataset = self._get_train_dataset()
+        dataset = AETrainDataset(self.train, item_count=self.item_count)
         dataloader = data_utils.DataLoader(dataset, batch_size=self.args.train_batch_size,
                                            shuffle=True, pin_memory=True)
         return dataloader
-
-    def _get_train_dataset(self):
-        dataset = AETrainDataset(self.train, item_count=self.item_count)
-        return dataset
-
-    def _get_val_loader(self):
-        return self._get_eval_loader(mode='val')
-
-    def _get_test_loader(self):
-        return self._get_eval_loader(mode='test')
+        
 
     def _get_eval_loader(self, mode):
         batch_size = self.args.val_batch_size if mode == 'val' else self.args.test_batch_size
@@ -143,8 +134,8 @@ class AEEvalDataset(data_utils.Dataset):
             if len(items) * label_prop >= 1:
                 # ith item => "chosen for label" if choose_as_label[i] is True else "chosen for input"
                 choose_as_label = np.zeros(len(items), dtype='bool')
-                chosen_index = np.random.choice(len(items), size=int(label_prop * len(items)), replace=False).astype('int64')
-                choose_as_label[chosen_index] = True
+                chosen_index = np.random.choice(len(items), size=int(label_prop * len(items)), replace=False).astype('int64') # 不考慮item，隨機取樣當 y
+                choose_as_label[chosen_index] = True 
                 input_list.append(items[np.logical_not(choose_as_label)])
                 label_list.append(items[choose_as_label])
             else:

@@ -24,11 +24,11 @@ class BERTTrainer(AbstractTrainer):
 
     def calculate_loss(self, batch):
         seqs, labels = batch
-        logits = self.model(seqs)  # B x T x V
-
+        logits = self.model(seqs)  # B x T x V (128 x 100 x 3707) (BATCH x SEQENCE_LEN x ITEM_NUM)        
         logits = logits.view(-1, logits.size(-1))  # (B*T) x V
         labels = labels.view(-1)  # B*T
         loss = self.ce(logits, labels)
+        
         return loss
 
     def calculate_metrics(self, batch):
