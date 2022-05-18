@@ -34,6 +34,7 @@ def recalls_and_ndcgs_for_ks(scores, labels, ks):
     labels_float = labels.float()
     rank = (-scores).argsort(dim=1)
     cut = rank
+    # understood
     for k in sorted(ks, reverse=True):
        cut = cut[:, :k]
        hits = labels_float.gather(1, cut)

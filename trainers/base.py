@@ -15,8 +15,8 @@ import numpy as np
 
 class AbstractTrainer(metaclass=ABCMeta):
     def __init__(self, args, model, train_loader, val_loader, test_loader, export_root):
-        print(len(iter(val_loader)))
-        exit()
+        
+        
         self.args = args
         self.device = args.device
         self.model = model.to(self.device)
@@ -40,7 +40,8 @@ class AbstractTrainer(metaclass=ABCMeta):
         self.add_extra_loggers()
         self.logger_service = LoggerService(self.train_loggers, self.val_loggers)
         self.log_period_as_iter = args.log_period_as_iter
-
+        
+        
     @abstractmethod
     def add_extra_loggers(self):
         pass
@@ -122,8 +123,8 @@ class AbstractTrainer(metaclass=ABCMeta):
         with torch.no_grad():
             tqdm_dataloader = tqdm(self.val_loader)
             for batch_idx, batch in enumerate(tqdm_dataloader):
-                batch = [x.to(self.device) for x in batch]
-
+                batch = [x.to(self.device) for x in batch]                
+                
                 metrics = self.calculate_metrics(batch)
 
                 for k, v in metrics.items():

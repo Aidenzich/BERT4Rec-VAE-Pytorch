@@ -40,7 +40,7 @@ class BertDataloader(AbstractDataloader):
         return train_loader, val_loader, test_loader
 
     def _get_train_loader(self):
-        dataset = self.BertTrainDataset(self.train, self.max_len, self.mask_prob, self.CLOZE_MASK_TOKEN, self.item_count, self.rng)
+        dataset = BertTrainDataset(self.train, self.max_len, self.mask_prob, self.CLOZE_MASK_TOKEN, self.item_count, self.rng)
         dataloader = data_utils.DataLoader(dataset, batch_size=self.args.train_batch_size,
                                            shuffle=True, pin_memory=True)
         return dataloader            
