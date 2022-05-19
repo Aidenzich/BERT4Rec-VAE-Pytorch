@@ -12,7 +12,8 @@ def set_template(args):
         args.split = 'leave_one_out'
 
         args.dataloader_code = 'bert'
-        batch = 128
+        # batch = 128
+        batch = 1
         args.train_batch_size = batch
         args.val_batch_size = batch
         args.test_batch_size = batch
@@ -21,7 +22,7 @@ def set_template(args):
         args.train_negative_sample_size = 0
         args.train_negative_sampling_seed = 0
         args.test_negative_sampler_code = 'random'
-        args.test_negative_sample_size = 100
+        args.test_negative_sample_size = 1000
         args.test_negative_sampling_seed = 98765
 
         args.trainer_code = 'bert'
