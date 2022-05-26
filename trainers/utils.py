@@ -47,5 +47,6 @@ def recalls_and_ndcgs_for_ks(scores, labels, ks):
        idcg = torch.Tensor([weights[:min(int(n), k)].sum() for n in answer_count]).to(dcg.device)
        ndcg = (dcg / idcg).mean()
        metrics['NDCG@%d' % k] = ndcg.cpu().item()
-
+    
+    
     return metrics

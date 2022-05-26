@@ -13,7 +13,7 @@ def set_template(args):
 
         args.dataloader_code = 'bert'
         # batch = 128
-        batch = 1
+        batch = 128
         args.train_batch_size = batch
         args.val_batch_size = batch
         args.test_batch_size = batch

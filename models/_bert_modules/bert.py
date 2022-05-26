@@ -7,11 +7,12 @@ from utils import fix_random_seed_as
 
 class BERT(nn.Module):
     def __init__(self, args):
-        super().__init__()        
-        fix_random_seed_as(4698)
+        super().__init__()
+
+        fix_random_seed_as(args.model_init_seed)
         # self.init_weights()
-        
-        max_len = 100                        
+
+        max_len = args.bert_max_len
         num_items = args.num_items
         n_layers = args.bert_num_blocks
         heads = args.bert_num_heads
@@ -21,8 +22,7 @@ class BERT(nn.Module):
         dropout = args.bert_dropout
 
         # embedding for BERT, sum of positional, segment, token embeddings
-        self.embedding = BERTEmbedding(vocab_size=vocab_size, embed_size=self.hidden, 
-                                       max_len=max_len, dropout=dropout)
+        self.embedding = BERTEmbedding(vocab_size=vocab_size, embed_size=self.hidden, max_len=max_len, dropout=dropout)
 
         # multi-layers transformer blocks, deep network
         self.transformer_blocks = nn.ModuleList(
