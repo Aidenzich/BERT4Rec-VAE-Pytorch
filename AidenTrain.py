@@ -50,11 +50,7 @@ class BertModel(pl.LightningModule):
         
 #%% 
 Bert = BertModel(args)
-trainer = pl.Trainer(limit_train_batches=100, max_epochs=1)
+trainer = pl.Trainer(limit_train_batches=100, max_epochs=10, gpus=1)
 trainer.fit(Bert, train_loader, val_loader)
-
-# %%
-
-
 
 # %%
